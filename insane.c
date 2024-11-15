@@ -21,6 +21,7 @@ int generate_random()
 }
 void enter_product(struct product products[], int *count);
 void get_product(struct product products[], int count);
+void update_product(struct product products[], int *count);
 
 int main()
 {
@@ -33,7 +34,8 @@ int main()
         printf("\n WELCOME\n");
         printf("\n 1) For Listing a New Product\n");
         printf(" 2) Get Information By Device Id\n ");
-        printf("3) Exit!\n");
+        printf(" 3) Update Reprostry\n ");
+        printf("4) Exit!\n");
         printf("Enter Your Choice :");
         scanf("%d", &choice);
 
@@ -46,6 +48,9 @@ int main()
             get_product(products, count);
             break;
         case 3:
+            update_product(products, &count);
+            break;
+        case 4:
             return 0;
         default:
             printf("Invalid Input");
@@ -68,13 +73,12 @@ void enter_product(struct product products[], int *count)
     scanf("%d", &products[*count].price);
 
     printf("ENTER THE QUANTITY YOU WANT TO STORE :");
-    scanf("%d",&products[*count].quantity);
+    scanf("%d", &products[*count].quantity);
 
     products[*count].id = *count + 1;
 
     printf("ID: %d\n", products[*count].id);
     (*count)++;
-    
 }
 void get_product(struct product products[], int count)
 {
@@ -97,5 +101,37 @@ void get_product(struct product products[], int count)
     if (!found)
     {
         printf("INVALID ID!");
+    }
+}
+void update_product(struct product products[], int *count)
+{
+    int search_id, new_price, new_quantity;
+    int found = 0;
+
+    printf("Enter the ID of the product to update: ");
+    scanf("%d", &search_id);
+
+    for (int i = 0; i < *count; i++)
+    {
+        if (products[i].id == search_id)
+        {
+            printf("Enter the new price: ");
+            scanf("%d", &new_price);
+
+            printf("Enter the new quantity: ");
+            scanf("%d", &new_quantity);
+
+            products[i].price = new_price;
+            products[i].quantity = new_quantity;
+
+            printf("Product updated successfully!\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+    {
+        printf("Product with ID %d not found.\n", search_id);
     }
 }
